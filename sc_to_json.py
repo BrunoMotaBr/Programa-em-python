@@ -7,7 +7,7 @@ def executar_script(argumentos):
         #Carrega arquivo json e retorna um array
         with open("Json\\pedidos.json", 'r') as file:
                 jsonAtual = json.load(file)
-
+        contador = 0
         for filepath in argumentos:
             if not os.path.isfile(filepath):
                 print(f"Error: File not found. {filepath} does not exist.")
@@ -30,15 +30,15 @@ def executar_script(argumentos):
                     "cliente": filename_data["cliente"],
                     "produtos": products
                 }
-                
                 jsonAtual.append(final_json) #Adiciona o novo objeto json a lista já existente.
             except ValueError:
                 return ValueError
+            
             with open(f"Json\\pedidos.json", 'w') as outfile:
                 #Acessa arquivo json e reescreve com as informações atualizadas.
                 jsonAtual.reverse() # <= Realiza a reordenação do arquivo json para que o mais recente fique acima.
                 json.dump(jsonAtual, outfile, indent=4)
-            
-        return [True, f"JSON written {os.path.splitext(filepath)[0]} to pedidos.json in directory Json"]
+
+        return [True, f"JSON(s) written to pedidos.json in directory Json."]
     else:
         return [False, "Error: Expected at least 1 argument. 0 given.\nFinishing process."]

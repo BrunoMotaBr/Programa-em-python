@@ -15,6 +15,13 @@ def selecionar_arquivos(nome_dos_arquivos = ""):#Botão para selecionar o arquiv
             text_box.insert(tk.END, f"{nome_do_arquivo}\n")
         text_box.config(state=tk.DISABLED)
 
+def delete_text(): 
+    text_box.config(state=tk.NORMAL)
+    text_box.delete("1.0", "end") 
+    text_box.config(state=tk.DISABLED)
+    btn_processar.config(state=tk.DISABLED)
+    arquivos_selecionados.clear()
+
 def on_processar_arquivos():#Retira somente o padrão da string antes de iniciar o processamento
     try:
         resultado = principal.executar_script(arquivos_selecionados)
@@ -22,9 +29,9 @@ def on_processar_arquivos():#Retira somente o padrão da string antes de iniciar
             messagebox.showinfo("Sucesso", f"Arquivos processados com sucesso!\n{resultado[1]}")        
         else:
             messagebox.showerror("Erro", "Nenhum arquivo foi selecionado.")
-    except TypeError:
-        messagebox.showerror("Erro", f"Um dos Arquivos selecionado esta vazio ou fora do padrão esperado!\n{arquivos_selecionados}")
-        text_box.delete("1.0", tk.END)
+    except TypeError as msg:
+        messagebox.showerror("Erro", f"Um dos Arquivos selecionado esta vazio ou fora do padrão esperado!\n{arquivos_selecionados} {msg}")
+        delete_text()
     except UnicodeDecodeError:
         messagebox.showerror("Erro", f"Arquivo com extensão fora do esperado selecione arquivos .txt.\n{arquivos_selecionados}")
 
@@ -59,8 +66,12 @@ btn_selecionar_arquivos.pack(pady=10)
 btn_processar = tk.Button(root, text="Processar Arquivos", command=on_processar_arquivos, state=tk.DISABLED)
 btn_processar.pack(pady=10)
 
-text_box = tk.Text(root, height=10, width=50, state=tk.DISABLED)
+text_box = tk.Text(root, width=50, height=5, state=tk.DISABLED)
 text_box.pack()
+
+
+tk.Button(root, text="Apagar seleção de arquivos", command=delete_text).pack()
+
 
 arquivos_selecionados = []
 

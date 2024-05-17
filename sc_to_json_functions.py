@@ -16,6 +16,12 @@ def retira_nome_do_arquivo_sem_perder_o_caminho(filename):#Retira o padrao conte
         filename_without_extension = os.path.splitext(nomeSemOCaminho)[0]
         return filename_without_extension
 
+#def verificar_pedido_existente(lista_pedidos, numero_pedido):      **Implementar
+ #   for pedido in lista_pedidos:
+  #      if pedido['pedido'] == numero_pedido:
+   #         return True
+    #return False
+
 def parse_filename(filename):
     #Verifica o arquivo possui mais caracters do que devia
     if(len(filename) > 23):
